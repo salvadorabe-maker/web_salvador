@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Salvador Abé Castro</title>
+
+
+<style>
+
+/* =====================================================
+   BASE
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    font-family:
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+
+/* =====================================================
+   PORTADA
+===================================================== */
+
+.portada {
+
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =====================================================
+   ZONA DE INTERACCIÓN
+===================================================== */
+
+.interaccion {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 520px;
+    height: 520px;
+
+    transform:
+        translate(-50%, -50%);
+
+    z-index: 20;
+}
+
+
+/* =====================================================
+   NOMBRE
+===================================================== */
+
+.nombre {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    font-size: 15px;
+
+    font-weight: 400;
+
+    white-space: nowrap;
+
+    z-index: 40;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+
+/* =====================================================
+   PIE MENU
+===================================================== */
+
+.pie-menu {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 520px;
+    height: 520px;
+
+    transform:
+        translate(-50%, -50%);
+
+    z-index: 10;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.35s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/*
+   El menú aparece solamente cuando el mouse
+   está dentro de la zona de interacción.
+*/
+
+.interaccion:hover .pie-menu {
+
+    opacity: 1;
+
+    pointer-events: auto;
+}
+
+
+/* =====================================================
+   CÍRCULO
+===================================================== */
+
+.radial {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 270px;
+    height: 270px;
+
+    transform:
+        translate(-50%, -50%);
+
+    border:
+        1px solid
+        rgba(17,17,17,0.15);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   OPCIONES
+===================================================== */
+
+.opcion {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    font-size: 13px;
+
+    font-weight: 400;
+
+    white-space: nowrap;
+
+    color:
+        rgba(17,17,17,0.28);
+
+    cursor: pointer;
+
+    user-select: none;
+
+    transition:
+        color 0.22s ease,
+        opacity 0.22s ease;
+
+    z-index: 30;
+}
+
+
+/* =====================================================
+   OPCIÓN ACTIVA
+===================================================== */
+
+.opcion.activa {
+
+    color: #111111;
+}
+
+
+/* =====================================================
+   POSICIONES
+===================================================== */
+
+/*
+   RADIO BASE
+
+   Mismas distancias de la versión con color.
+*/
+
+:root {
+
+    --radio:
+        190px;
+}
+
+
+/* =====================================================
+   ARRIBA
+   Atlas
+===================================================== */
+
+.opcion[data-sector="0"] {
+
+    transform:
+
+        translate(
+            -50%,
+            calc(
+                -1 *
+                var(--radio)
+            )
+        )
+
+        translateY(
+            -50%
+        );
+}
+
+
+/* =====================================================
+   ARRIBA DERECHA
+   Portafolio
+===================================================== */
+
+.opcion[data-sector="1"] {
+
+    transform:
+
+        translate(
+            134px,
+            -134px
+        );
+}
+
+
+/* =====================================================
+   DERECHA
+   SoundCloud
+===================================================== */
+
+.opcion[data-sector="2"] {
+
+    transform:
+
+        translate(
+            var(--radio),
+            -50%
+        );
+}
+
+
+/* =====================================================
+   ABAJO DERECHA
+   YouTube
+===================================================== */
+
+.opcion[data-sector="3"] {
+
+    transform:
+
+        translate(
+            134px,
+            134px
+        );
+}
+
+
+/* =====================================================
+   ABAJO
+   Flickr
+===================================================== */
+
+.opcion[data-sector="4"] {
+
+    transform:
+
+        translate(
+            -50%,
+            var(--radio)
+        );
+}
+
+
+/* =====================================================
+   ABAJO IZQUIERDA
+   Spotify
+===================================================== */
+
+.opcion[data-sector="5"] {
+
+    transform:
+
+        translate(
+            calc(
+                -134px -
+                100%
+            ),
+            134px
+        );
+}
+
+
+/* =====================================================
+   IZQUIERDA
+   PÁGINA LOICA
+===================================================== */
+
+.opcion[data-sector="6"] {
+
+    transform:
+
+        translate(
+            calc(
+                -1 *
+                var(--radio) -
+                100%
+            ),
+            -50%
+        );
+}
+
+
+/* =====================================================
+   ARRIBA IZQUIERDA
+   AVD
+===================================================== */
+
+.opcion[data-sector="7"] {
+
+    transform:
+
+        translate(
+            calc(
+                -134px -
+                100%
+            ),
+            -134px
+        );
+}
+
+
+/* =====================================================
+   ÁNGULO
+===================================================== */
+
+.angulo {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, 78px);
+
+    font-size: 8px;
+
+    letter-spacing:
+        0.05em;
+
+    color:
+        rgba(17,17,17,0.38);
+
+    white-space: nowrap;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+
+.interaccion:hover .angulo {
+
+    opacity: 1;
+}
+
+
+/* =====================================================
+   CENTRO
+===================================================== */
+
+.interaccion:hover .centro {
+
+    opacity: 1;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .interaccion {
+
+        width: 400px;
+        height: 400px;
+    }
+
+
+    .pie-menu {
+
+        width: 400px;
+        height: 400px;
+    }
+
+
+    .radial {
+
+        width: 220px;
+        height: 220px;
+    }
+
+
+    .opcion {
+
+        font-size: 14px;
+    }
+
+
+    .opcion[data-sector="0"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateY(
+                -150px
+            );
+    }
+
+
+    .opcion[data-sector="1"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                106px,
+                -106px
+            );
+    }
+
+
+    .opcion[data-sector="2"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateX(
+                150px
+            );
+    }
+
+
+    .opcion[data-sector="3"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                106px,
+                106px
+            );
+    }
+
+
+    .opcion[data-sector="4"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateY(
+                150px
+            );
+    }
+
+
+    .opcion[data-sector="5"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                -106px,
+                106px
+            );
+    }
+
+
+    .opcion[data-sector="6"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateX(
+                -150px
+            );
+    }
+
+
+    .opcion[data-sector="7"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                -106px,
+                -106px
+            );
+    }
+
+
+    .nombre {
+
+        font-size: 17px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div
+    class="portada"
+    id="portada"
+>
+
+
+    <!-- =================================================
+         ZONA COMPLETA DE INTERACCIÓN
+    ================================================== -->
+
+    <div
+        class="interaccion"
+        id="interaccion"
+    >
+
+
+        <!-- =================================================
+             NOMBRE
+        ================================================== -->
+
+        <div
+            class="nombre"
+        >
+            Salvador Abé Castro
+        </div>
+
+
+        <!-- =================================================
+             PIE MENU
+        ================================================== -->
+
+        <div
+            class="pie-menu"
+            id="pieMenu"
+        >
+
+
+            <!-- CÍRCULO -->
+
+            <div class="radial"></div>
+
+
+            <!-- =================================================
+                 OPCIONES
+            ================================================== -->
+
+
+            <!-- ATLAS -->
+
+            <div
+                class="opcion"
+
+                data-sector="0"
+
+                data-link="atlas.html"
+
+                data-externo="false"
+            >
+                Atlas
+            </div>
+
+
+            <!-- PORTAFOLIO -->
+
+            <div
+                class="opcion"
+
+                data-sector="1"
+
+                data-link="portafolio.html"
+
+                data-externo="false"
+            >
+                Portafolio
+            </div>
+
+
+            <!-- SOUNDCLOUD -->
+
+            <div
+                class="opcion"
+
+                data-sector="2"
+
+                data-link="https://soundcloud.com/salvadorabe"
+
+                data-externo="true"
+            >
+                SoundCloud
+            </div>
+
+
+            <!-- YOUTUBE -->
+
+            <div
+                class="opcion"
+
+                data-sector="3"
+
+                data-link="https://youtube.com/@salvadorabe?si=EsTIwUUoyjb73-e1"
+
+                data-externo="true"
+            >
+                YouTube
+            </div>
+
+
+            <!-- FLICKR -->
+
+            <div
+                class="opcion"
+
+                data-sector="4"
+
+                data-link="https://www.flickr.com/photos/salvadorabe"
+
+                data-externo="true"
+            >
+                Flickr
+            </div>
+
+
+            <!-- SPOTIFY -->
+
+            <div
+                class="opcion"
+
+                data-sector="5"
+
+                data-link="AQUI_TU_LINK_DE_SPOTIFY"
+
+                data-externo="true"
+            >
+                Spotify
+            </div>
+
+
+            <!-- PÁGINA LOICA -->
+
+            <div
+                class="opcion"
+
+                data-sector="6"
+
+                data-link="https://loicaestudio.cl/"
+
+                data-externo="true"
+            >
+                PÁGINA LOICA
+            </div>
+
+
+            <!-- AVD -->
+
+            <div
+                class="opcion"
+
+                data-sector="7"
+
+                data-link="AQUI_TU_SEXTO_LINK"
+
+                data-externo="true"
+            >
+                AVD
+            </div>
+
+
+            <!-- =================================================
+                 ÁNGULO
+            ================================================== -->
+
+            <div
+                class="angulo"
+                id="angulo"
+            >
+                0°
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const interaccion =
+    document.getElementById(
+        "interaccion"
+    );
+
+
+const opciones =
+    document.querySelectorAll(
+        ".opcion"
+    );
+
+
+const angulo =
+    document.getElementById(
+        "angulo"
+    );
+
+
+/* =====================================================
+   CONFIGURACIÓN
+===================================================== */
+
+const sectores =
+    8;
+
+
+const paso =
+    360 /
+    sectores;
+
+
+/* =====================================================
+   MOUSE
+===================================================== */
+
+document.addEventListener(
+
+    "mousemove",
+
+    function(event) {
+
+
+        /*
+         * El cálculo sigue teniendo
+         * como origen el centro
+         * de la pantalla.
+         */
+
+        const centroX =
+            window.innerWidth /
+            2;
+
+
+        const centroY =
+            window.innerHeight /
+            2;
+
+
+        const dx =
+            event.clientX -
+            centroX;
+
+
+        const dy =
+            event.clientY -
+            centroY;
+
+
+        /*
+         * Si el menú no está activo,
+         * eliminamos la selección.
+         */
+
+        if (
+            !interaccion.matches(
+                ":hover"
+            )
+        ) {
+
+            opciones.forEach(
+
+                opcion =>
+
+                    opcion.classList.remove(
+                        "activa"
+                    )
+
+            );
+
+            return;
+        }
+
+
+        /* =============================================
+           ÁNGULO
+
+           0°   = arriba
+           90°  = derecha
+           180° = abajo
+           270° = izquierda
+        ============================================= */
+
+        let grados =
+
+            Math.atan2(
+                dy,
+                dx
+            ) *
+
+            180 /
+            Math.PI;
+
+
+        grados +=
+            90;
+
+
+        if (
+            grados < 0
+        ) {
+
+            grados +=
+                360;
+        }
+
+
+        if (
+            grados >= 360
+        ) {
+
+            grados -=
+                360;
+        }
+
+
+        /* =============================================
+           MOSTRAR ÁNGULO
+        ============================================= */
+
+        angulo.textContent =
+
+            Math.round(
+                grados
+            ) +
+
+            "°";
+
+
+        /* =============================================
+           SECTOR
+        ============================================= */
+
+        const sector =
+
+            Math.floor(
+
+                (
+                    grados +
+                    paso / 2
+                )
+
+                /
+
+                paso
+
+            )
+
+            %
+
+            sectores;
+
+
+        /* =============================================
+           MARCAR OPCIÓN
+        ============================================= */
+
+        opciones.forEach(
+
+            opcion => {
+
+                const numero =
+
+                    Number(
+                        opcion.dataset.sector
+                    );
+
+
+                opcion.classList.toggle(
+
+                    "activa",
+
+                    numero === sector
+
+                );
+
+            }
+
+        );
+
+    }
+
+);
+
+
+/* =====================================================
+   CLICK EN OPCIONES
+===================================================== */
+
+opciones.forEach(
+
+    opcion => {
+
+        opcion.addEventListener(
+
+            "click",
+
+            function() {
+
+
+                /*
+                   Leemos directamente
+                   el link de esta opción.
+                */
+
+                const link =
+                    opcion.dataset.link;
+
+
+                /*
+                   Leemos si debe abrirse
+                   en otra pestaña.
+                */
+
+                const externo =
+                    opcion.dataset.externo ===
+                    "true";
+
+
+                /*
+                   Si no existe link,
+                   no hacemos nada.
+                */
+
+                if (
+                    !link ||
+                    link.startsWith(
+                        "AQUI_TU_"
+                    )
+                ) {
+
+                    return;
+                }
+
+
+                /*
+                   LINK EXTERNO
+                */
+
+                if (
+                    externo
+                ) {
+
+                    window.open(
+                        link,
+                        "_blank"
+                    );
+
+                }
+
+
+                /*
+                   LINK INTERNO
+                */
+
+                else {
+
+                    window.location.href =
+                        link;
+
+                }
+
+            }
+
+        );
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>

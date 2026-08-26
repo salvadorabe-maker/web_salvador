@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Atlas | Salvador Abé Castro</title>
+
+    <style>
+
+        /* =====================================================
+           BASE
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --fondo: #ffffff;
+            --texto: #111111;
+
+            --header-alto: 64px;
+
+            /* Altura del margen blanco reservado para la ficha */
+            --margen-atlas: 170px;
+        }
+
+        html,
+        body {
+
+            margin: 0;
+            padding: 0;
+
+            width: 100%;
+            min-height: 100%;
+
+            background: var(--fondo);
+            color: var(--texto);
+
+            font-family:
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
+           NOMBRE
+        ===================================================== */
+
+        .nombre {
+
+            color: #111111;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            pointer-events: auto;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        header {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: var(--header-alto);
+
+            padding: 22px 28px;
+
+            display: flex;
+
+            justify-content: space-between;
+            align-items: flex-start;
+
+            z-index: 20000;
+
+            pointer-events: none;
+
+            font-size: 13px;
+            line-height: 1;
+        }
+
+
+        /* =====================================================
+           NAVEGACIÓN
+        ===================================================== */
+
+        .navegacion a {
+
+            color: inherit;
+
+            text-decoration: none;
+
+            pointer-events: auto;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           MARGEN EDITORIAL ATLAS
+        ===================================================== */
+
+        .margen-atlas {
+
+            position: relative;
+
+            width: 100%;
+
+            height: var(--margen-atlas);
+
+            padding:
+                88px
+                28px
+                18px
+                75px;
+
+            background: var(--fondo);
+
+            z-index: 100;
+        }
+
+
+        /* =====================================================
+           TÍTULO ATLAS
+        ===================================================== */
+
+        .titulo-atlas {
+
+            margin:
+                0
+                0
+                16px
+                0;
+
+            font-size: 13px;
+
+            font-weight: normal;
+
+            line-height: 1;
+        }
+
+
+        /* =====================================================
+           DESCRIPCIÓN ATLAS
+        ===================================================== */
+
+        .descripcion-atlas {
+
+            margin: 0;
+
+            width: 340px;
+
+            max-width: 340px;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+
+            font-weight: normal;
+
+            text-align: justify;
+        }
+
+
+        /* =====================================================
+           NUBE
+        ===================================================== */
+
+        #nube {
+
+            position: relative;
+
+            width: 100vw;
+
+            min-height:
+                calc(
+                    100vh -
+                    var(--header-alto) -
+                    var(--margen-atlas)
+                );
+
+            overflow: hidden;
+        }
+
+
+        /* =====================================================
+           FOTOGRAFÍAS
+        ===================================================== */
+
+        .objeto {
+
+            position: absolute;
+
+            display: block;
+
+            margin: 0;
+            padding: 0;
+
+            cursor: pointer;
+
+            user-select: none;
+
+            transform-origin: center center;
+
+            transition:
+                opacity 0.15s ease,
+                filter 0.15s ease;
+        }
+
+
+        .objeto img {
+
+            display: block;
+
+            width: 100%;
+            height: auto;
+
+            margin: 0;
+            padding: 0;
+
+            object-fit: contain;
+        }
+
+
+        .objeto:hover {
+
+            z-index: 100;
+        }
+
+
+        /* =====================================================
+           FOTO ABIERTA
+        ===================================================== */
+
+        .objeto.activo {
+
+            position: fixed !important;
+
+            left: 50% !important;
+            top: 50% !important;
+
+            width: auto !important;
+            height: auto !important;
+
+            max-width: 90vw !important;
+            max-height: 88vh !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
+
+            transform:
+                translate(-50%, -50%) !important;
+
+            z-index: 30000 !important;
+
+            cursor: default;
+
+            opacity: 1;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            pointer-events: auto;
+        }
+
+
+        /* =====================================================
+           IMAGEN ABIERTA
+        ===================================================== */
+
+        .objeto.activo img {
+
+            display: block;
+
+            width: auto !important;
+            height: auto !important;
+
+            max-width: 90vw !important;
+            max-height: 88vh !important;
+
+            min-width: 0 !important;
+            min-height: 0 !important;
+
+            object-fit: contain;
+
+            margin: 0 !important;
+
+            box-shadow:
+                0 20px 70px rgba(0,0,0,0.22);
+        }
+
+
+        /* =====================================================
+           FONDO CUANDO UNA FOTO ESTÁ ABIERTA
+        ===================================================== */
+
+        body.foto-abierta::before {
+
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(255,255,255,0.82);
+
+            z-index: 25000;
+
+            pointer-events: auto;
+        }
+
+
+        /* =====================================================
+           MÓVIL
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            :root {
+
+                --header-alto: 60px;
+
+                --margen-atlas: 128px;
+            }
+
+
+            header {
+
+                padding:
+                    20px
+                    20px;
+            }
+
+
+            .margen-atlas {
+
+                padding:
+                    76px
+                    20px
+                    18px
+                    20px;
+            }
+
+
+            .titulo-atlas {
+
+                font-size: 11px;
+
+                margin-bottom: 15px;
+            }
+
+
+            .descripcion-atlas {
+
+                width:
+                    calc(100vw - 40px);
+
+                max-width:
+                    calc(100vw - 40px);
+
+                font-size: 10px;
+
+                line-height: 1.5;
+
+                text-align: justify;
+            }
+
+
+            .objeto.activo img {
+
+                max-width: 94vw;
+
+                max-height: 84vh;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <a
+        href="index 2.html"
+        class="nombre"
+    >
+        Salvador Abé Castro
+    </a>
+
+
+    <div class="navegacion">
+
+        <a href="portafolio.html">
+            Portafolio
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MARGEN EDITORIAL ATLAS
+===================================================== -->
+
+<section class="margen-atlas">
+
+    <h1 class="titulo-atlas">
+        ATLAS
+    </h1>
+
+    <p class="descripcion-atlas">
+
+Colección miscelánea de fotografías tomadas con distintos medios.
+        son archivos dispersos en varias memorias, de límites difusos,
+        donde lo importante es la red de posibles relaciones 
+        nuevas que aparecen volviendo a verlas esta vez juntas.
+        Fragmentos de algunos lugares donde he pasado.
+        Se re ordena todo con F5
+
+    </p>
+
+</section>
+
+
+
+<!-- =====================================================
+     NUBE
+===================================================== -->
+
+<main id="nube"></main>
+
+
+
+<script>
+
+    /* =====================================================
+       CONFIGURACIÓN
+    ===================================================== */
+
+    const CONFIG = {
+
+        FOTO_ANCHO: 150,
+
+        ESPACIO: 4,
+
+        MARGEN: 30,
+
+        ANCHO_NUBE: 0.94,
+
+        ALTO_INICIAL: 0.88,
+
+        INTENTOS: 700,
+
+        VARIACION_TAMANO: 0.05,
+
+        /* Cuántas fotos se descargan al mismo tiempo.
+           Menos concurrencia = las primeras (las que se
+           ven al entrar) cargan más rápido, porque no
+           compiten por banda ancha con las 351. */
+        CONCURRENCIA: 8
+
+    };
+
+
+    /* =====================================================
+       RUTA DE LAS IMÁGENES
+    ===================================================== */
+
+    const BASE =
+        "images/Fotografías Atlas/";
+
+
+    /* =====================================================
+       TODAS LAS IMÁGENES DEL ATLAS
+       (sin duplicados)
+    ===================================================== */
+
+   const imagenes = [
+    "Imagen Atlas   (1).webp",
+    "Imagen Atlas   (2).webp",
+    "Imagen Atlas   (3).webp",
+    "Imagen Atlas   (4).webp",
+    "Imagen Atlas   (5).webp",
+    "Imagen Atlas   (6).webp",
+    "Imagen Atlas   (7).webp",
+    "Imagen Atlas   (8).webp",
+    "Imagen Atlas   (9).webp",
+    "Imagen Atlas   (10).webp",
+    "Imagen Atlas   (11).webp",
+    "Imagen Atlas   (12).webp",
+    "Imagen Atlas   (13).webp",
+    "Imagen Atlas   (14).webp",
+    "Imagen Atlas   (15).webp",
+    "Imagen Atlas   (16).webp",
+    "Imagen Atlas   (17).webp",
+    "Imagen Atlas   (18).webp",
+    "Imagen Atlas   (19).webp",
+    "Imagen Atlas   (20).webp",
+    "Imagen Atlas   (21).webp",
+    "Imagen Atlas   (22).webp",
+    "Imagen Atlas   (23).webp",
+    "Imagen Atlas   (24).webp",
+    "Imagen Atlas   (25).webp",
+    "Imagen Atlas   (26).webp",
+    "Imagen Atlas   (27).webp",
+    "Imagen Atlas   (28).webp",
+    "Imagen Atlas   (29).webp",
+    "Imagen Atlas   (30).webp",
+    "Imagen Atlas   (31).webp",
+    "Imagen Atlas   (32).webp",
+    "Imagen Atlas   (33).webp",
+    "Imagen Atlas   (34).webp",
+    "Imagen Atlas   (35).webp",
+    "Imagen Atlas   (36).webp",
+    "Imagen Atlas   (37).webp",
+    "Imagen Atlas   (38).webp",
+    "Imagen Atlas   (39).webp",
+    "Imagen Atlas   (40).webp",
+    "Imagen Atlas   (41).webp",
+    "Imagen Atlas   (42).webp",
+    "Imagen Atlas   (43).webp",
+    "Imagen Atlas   (44).webp",
+    "Imagen Atlas   (45).webp",
+    "Imagen Atlas   (46).webp",
+    "Imagen Atlas   (47).webp",
+    "Imagen Atlas   (48).webp",
+    "Imagen Atlas   (49).webp",
+    "Imagen Atlas   (50).webp",
+    "Imagen Atlas   (51).webp",
+    "Imagen Atlas   (52).webp",
+    "Imagen Atlas   (53).webp",
+    "Imagen Atlas   (54).webp",
+    "Imagen Atlas   (55).webp",
+    "Imagen Atlas   (56).webp",
+    "Imagen Atlas   (57).webp",
+    "Imagen Atlas   (58).webp",
+    "Imagen Atlas   (59).webp",
+    "Imagen Atlas   (60).webp",
+    "Imagen Atlas   (61).webp",
+    "Imagen Atlas   (62).webp",
+    "Imagen Atlas   (63).webp",
+    "Imagen Atlas   (64).webp",
+    "Imagen Atlas   (65).webp",
+    "Imagen Atlas   (66).webp",
+    "Imagen Atlas   (67).webp",
+    "Imagen Atlas   (68).webp",
+    "Imagen Atlas   (69).webp",
+    "Imagen Atlas   (70).webp",
+    "Imagen Atlas   (71).webp",
+    "Imagen Atlas   (72).webp",
+    "Imagen Atlas   (73).webp",
+    "Imagen Atlas   (74).webp",
+    "Imagen Atlas   (75).webp",
+    "Imagen Atlas   (76).webp",
+    "Imagen Atlas   (77).webp",
+    "Imagen Atlas   (78).webp",
+    "Imagen Atlas   (79).webp",
+    "Imagen Atlas   (80).webp",
+    "Imagen Atlas   (81).webp",
+    "Imagen Atlas   (82).webp",
+    "Imagen Atlas   (83).webp",
+    "Imagen Atlas   (84).webp",
+    "Imagen Atlas   (85).webp",
+    "Imagen Atlas   (86).webp",
+    "Imagen Atlas   (87).webp",
+    "Imagen Atlas   (88).webp",
+    "Imagen Atlas   (89).webp",
+    "Imagen Atlas   (90).webp",
+    "Imagen Atlas   (91).webp",
+    "Imagen Atlas   (92).webp",
+    "Imagen Atlas   (93).webp",
+    "Imagen Atlas   (94).webp",
+    "Imagen Atlas   (95).webp",
+    "Imagen Atlas   (96).webp",
+    "Imagen Atlas   (97).webp",
+    "Imagen Atlas   (98).webp",
+    "Imagen Atlas   (99).webp",
+    "Imagen Atlas   (100).webp",
+    "Imagen Atlas   (101).webp",
+    "Imagen Atlas   (102).webp",
+    "Imagen Atlas   (103).webp",
+    "Imagen Atlas   (104).webp",
+    "Imagen Atlas   (105).webp",
+    "Imagen Atlas   (106).webp",
+    "Imagen Atlas   (107).webp",
+    "Imagen Atlas   (108).webp",
+    "Imagen Atlas   (109).webp",
+    "Imagen Atlas   (110).webp",
+    "Imagen Atlas   (111).webp",
+    "Imagen Atlas   (112).webp",
+    "Imagen Atlas   (113).webp",
+    "Imagen Atlas   (114).webp",
+    "Imagen Atlas   (115).webp",
+    "Imagen Atlas   (116).webp",
+    "Imagen Atlas   (117).webp",
+    "Imagen Atlas   (118).webp",
+    "Imagen Atlas   (119).webp",
+    "Imagen Atlas   (120).webp",
+    "Imagen Atlas   (121).webp",
+    "Imagen Atlas   (122).webp",
+    "Imagen Atlas   (123).webp",
+    "Imagen Atlas   (124).webp",
+    "Imagen Atlas   (125).webp",
+    "Imagen Atlas   (126).webp",
+    "Imagen Atlas   (127).webp",
+    "Imagen Atlas   (128).webp",
+    "Imagen Atlas   (129).webp",
+    "Imagen Atlas   (130).webp",
+    "Imagen Atlas   (131).webp",
+    "Imagen Atlas   (132).webp",
+    "Imagen Atlas   (133).webp",
+    "Imagen Atlas   (134).webp",
+    "Imagen Atlas   (135).webp",
+    "Imagen Atlas   (136).webp",
+    "Imagen Atlas   (137).webp",
+    "Imagen Atlas   (138).webp",
+    "Imagen Atlas   (139).webp",
+    "Imagen Atlas   (140).webp",
+    "Imagen Atlas   (141).webp",
+    "Imagen Atlas   (142).webp",
+    "Imagen Atlas   (143).webp",
+    "Imagen Atlas   (144).webp",
+    "Imagen Atlas   (145).webp",
+    "Imagen Atlas   (146).webp",
+    "Imagen Atlas   (147).webp",
+    "Imagen Atlas   (148).webp",
+    "Imagen Atlas   (149).webp",
+    "Imagen Atlas   (150).webp",
+    "Imagen Atlas   (151).webp",
+    "Imagen Atlas   (152).webp",
+    "Imagen Atlas   (153).webp",
+    "Imagen Atlas   (154).webp",
+    "Imagen Atlas   (155).webp",
+    "Imagen Atlas   (156).webp",
+    "Imagen Atlas   (157).webp",
+    "Imagen Atlas   (158).webp",
+    "Imagen Atlas   (159).webp",
+    "Imagen Atlas   (160).webp",
+    "Imagen Atlas   (161).webp",
+    "Imagen Atlas   (162).webp",
+    "Imagen Atlas   (163).webp",
+    "Imagen Atlas   (164).webp",
+    "Imagen Atlas   (165).webp",
+    "Imagen Atlas   (166).webp",
+    "Imagen Atlas   (167).webp",
+    "Imagen Atlas   (168).webp",
+    "Imagen Atlas   (169).webp",
+    "Imagen Atlas   (170).webp",
+    "Imagen Atlas   (171).webp",
+    "Imagen Atlas   (172).webp",
+    "Imagen Atlas   (173).webp",
+    "Imagen Atlas   (174).webp",
+    "Imagen Atlas   (175).webp",
+    "Imagen Atlas   (176).webp",
+    "Imagen Atlas   (177).webp",
+    "Imagen Atlas   (178).webp",
+    "Imagen Atlas   (179).webp",
+    "Imagen Atlas   (180).webp",
+    "Imagen Atlas   (181).webp",
+    "Imagen Atlas   (182).webp",
+    "Imagen Atlas   (183).webp",
+    "Imagen Atlas   (184).webp",
+    "Imagen Atlas   (185).webp",
+    "Imagen Atlas   (186).webp",
+    "Imagen Atlas   (187).webp",
+    "Imagen Atlas   (188).webp",
+    "Imagen Atlas   (189).webp",
+    "Imagen Atlas   (190).webp",
+    "Imagen Atlas   (191).webp",
+    "Imagen Atlas   (192).webp",
+    "Imagen Atlas   (193).webp",
+    "Imagen Atlas   (194).webp",
+    "Imagen Atlas   (195).webp",
+    "Imagen Atlas   (196).webp",
+    "Imagen Atlas   (197).webp",
+    "Imagen Atlas   (198).webp",
+    "Imagen Atlas   (199).webp",
+    "Imagen Atlas   (200).webp",
+    "Imagen Atlas   (201).webp",
+    "Imagen Atlas   (202).webp",
+    "Imagen Atlas   (203).webp",
+    "Imagen Atlas   (204).webp",
+    "Imagen Atlas   (205).webp",
+    "Imagen Atlas   (206).webp",
+    "Imagen Atlas   (207).webp",
+    "Imagen Atlas   (208).webp",
+    "Imagen Atlas   (209).webp",
+    "Imagen Atlas   (210).webp",
+    "Imagen Atlas   (211).webp",
+    "Imagen Atlas   (212).webp",
+    "Imagen Atlas   (213).webp",
+    "Imagen Atlas   (214).webp",
+    "Imagen Atlas   (215).webp",
+    "Imagen Atlas   (216).webp",
+    "Imagen Atlas   (217).webp",
+    "Imagen Atlas   (218).webp",
+    "Imagen Atlas   (219).webp",
+    "Imagen Atlas   (220).webp",
+    "Imagen Atlas   (221).webp",
+    "Imagen Atlas   (222).webp",
+    "Imagen Atlas   (223).webp",
+    "Imagen Atlas   (224).webp",
+    "Imagen Atlas   (225).webp",
+    "Imagen Atlas   (226).webp",
+    "Imagen Atlas   (227).webp",
+    "Imagen Atlas   (228).webp",
+    "Imagen Atlas   (229).webp",
+    "Imagen Atlas   (230).webp",
+    "Imagen Atlas   (231).webp",
+    "Imagen Atlas   (232).webp",
+    "Imagen Atlas   (233).webp",
+    "Imagen Atlas   (234).webp",
+    "Imagen Atlas   (235).webp",
+    "Imagen Atlas   (236).webp",
+    "Imagen Atlas   (237).webp",
+    "Imagen Atlas   (238).webp",
+    "Imagen Atlas   (239).webp",
+    "Imagen Atlas   (240).webp",
+    "Imagen Atlas   (241).webp",
+    "Imagen Atlas   (242).webp",
+    "Imagen Atlas   (243).webp",
+    "Imagen Atlas   (244).webp",
+    "Imagen Atlas   (245).webp",
+    "Imagen Atlas   (246).webp",
+    "Imagen Atlas   (247).webp",
+    "Imagen Atlas   (248).webp",
+    "Imagen Atlas   (249).webp",
+    "Imagen Atlas   (250).webp",
+    "Imagen Atlas   (251).webp",
+    "Imagen Atlas   (252).webp",
+    "Imagen Atlas   (253).webp",
+    "Imagen Atlas   (254).webp",
+    "Imagen Atlas   (255).webp",
+    "Imagen Atlas   (256).webp",
+    "Imagen Atlas   (257).webp",
+    "Imagen Atlas   (258).webp",
+    "Imagen Atlas   (259).webp",
+    "Imagen Atlas   (260).webp",
+    "Imagen Atlas   (261).webp",
+    "Imagen Atlas   (262).webp",
+    "Imagen Atlas   (263).webp",
+    "Imagen Atlas   (264).webp",
+    "Imagen Atlas   (265).webp",
+    "Imagen Atlas   (266).webp",
+    "Imagen Atlas   (267).webp",
+    "Imagen Atlas   (268).webp",
+    "Imagen Atlas   (269).webp",
+    "Imagen Atlas   (270).webp",
+    "Imagen Atlas   (271).webp",
+    "Imagen Atlas   (272).webp",
+    "Imagen Atlas   (273).webp",
+    "Imagen Atlas   (274).webp",
+    "Imagen Atlas   (275).webp",
+    "Imagen Atlas   (276).webp",
+    "Imagen Atlas   (277).webp",
+    "Imagen Atlas   (278).webp",
+    "Imagen Atlas   (279).webp",
+    "Imagen Atlas   (280).webp",
+    "Imagen Atlas   (281).webp",
+    "Imagen Atlas   (282).webp",
+    "Imagen Atlas   (283).webp",
+    "Imagen Atlas   (284).webp",
+    "Imagen Atlas   (285).webp",
+    "Imagen Atlas   (286).webp",
+    "Imagen Atlas   (287).webp",
+    "Imagen Atlas   (288).webp",
+    "Imagen Atlas   (289).webp",
+    "Imagen Atlas   (290).webp",
+    "Imagen Atlas   (291).webp",
+    "Imagen Atlas   (292).webp",
+    "Imagen Atlas   (293).webp",
+    "Imagen Atlas   (294).webp",
+    "Imagen Atlas   (295).webp",
+    "Imagen Atlas   (296).webp",
+    "Imagen Atlas   (297).webp",
+    "Imagen Atlas   (298).webp",
+    "Imagen Atlas   (299).webp",
+    "Imagen Atlas   (300).webp",
+    "Imagen Atlas   (301).webp",
+    "Imagen Atlas   (302).webp",
+    "Imagen Atlas   (303).webp",
+    "Imagen Atlas   (304).webp",
+    "Imagen Atlas   (305).webp",
+    "Imagen Atlas   (306).webp",
+    "Imagen Atlas   (307).webp",
+    "Imagen Atlas   (308).webp",
+    "Imagen Atlas   (309).webp",
+    "Imagen Atlas   (310).webp",
+    "Imagen Atlas   (311).webp",
+    "Imagen Atlas   (312).webp",
+    "Imagen Atlas   (313).webp",
+    "Imagen Atlas   (314).webp",
+    "Imagen Atlas   (315).webp",
+    "Imagen Atlas   (316).webp",
+    "Imagen Atlas   (317).webp",
+    "Imagen Atlas   (318).webp",
+    "Imagen Atlas   (319).webp",
+    "Imagen Atlas   (320).webp",
+    "Imagen Atlas   (321).webp",
+    "Imagen Atlas   (322).webp",
+    "Imagen Atlas   (323).webp",
+    "Imagen Atlas   (324).webp",
+    "Imagen Atlas   (325).webp",
+    "Imagen Atlas   (326).webp",
+    "Imagen Atlas   (327).webp",
+    "Imagen Atlas   (328).webp",
+    "Imagen Atlas   (329).webp",
+    "Imagen Atlas   (330).webp",
+    "Imagen Atlas   (331).webp",
+    "Imagen Atlas   (332).webp",
+    "Imagen Atlas   (333).webp",
+    "Imagen Atlas   (334).webp",
+    "Imagen Atlas   (335).webp",
+    "Imagen Atlas   (336).webp",
+    "Imagen Atlas   (337).webp",
+    "Imagen Atlas   (338).webp",
+    "Imagen Atlas   (339).webp",
+    "Imagen Atlas   (340).webp",
+    "Imagen Atlas   (341).webp",
+    "Imagen Atlas   (342).webp",
+    "Imagen Atlas   (343).webp",
+    "Imagen Atlas   (344).webp",
+    "Imagen Atlas   (345).webp",
+    "Imagen Atlas   (346).webp",
+    "Imagen Atlas   (347).webp",
+    "Imagen Atlas   (348).webp",
+    "Imagen Atlas   (349).webp",
+    "Imagen Atlas   (350).webp",
+    "Imagen Atlas   (351).webp",
+    "Imagen Atlas   (352).webp",
+    "Imagen Atlas   (353).webp",
+    "Imagen Atlas   (354).webp",
+    "Imagen Atlas   (355).webp",
+    "Imagen Atlas   (356).webp",
+    "Imagen Atlas   (357).webp",
+    "Imagen Atlas   (358).webp",
+    "Imagen Atlas   (359).webp",
+    "Imagen Atlas   (360).webp",
+    "Imagen Atlas   (361).webp",
+    "Imagen Atlas   (362).webp",
+    "Imagen Atlas   (363).webp",
+    "Imagen Atlas   (364).webp",
+    "Imagen Atlas   (365).webp",
+    "Imagen Atlas   (366).webp",
+    "Imagen Atlas   (367).webp",
+    "Imagen Atlas   (368).webp",
+    "Imagen Atlas   (369).webp",
+    "Imagen Atlas   (370).webp"
+];
+
+    /* =====================================================
+       REFERENCIA A LA NUBE
+    ===================================================== */
+
+    const nube =
+        document.getElementById("nube");
+
+
+    /* =====================================================
+       MEZCLAR IMÁGENES
+    ===================================================== */
+
+    function mezclar(array) {
+
+        const copia = [...array];
+
+        for (
+            let i = copia.length - 1;
+            i > 0;
+            i--
+        ) {
+
+            const j =
+                Math.floor(
+                    Math.random() * (i + 1)
+                );
+
+            [
+                copia[i],
+                copia[j]
+            ] = [
+                copia[j],
+                copia[i]
+            ];
+
+        }
+
+        return copia;
+
+    }
+
+
+    /* =====================================================
+       CARGAR IMAGEN
+    ===================================================== */
+
+    function cargarImagen(src) {
+
+        return new Promise((resolve, reject) => {
+
+            const img =
+                new Image();
+
+            img.onload =
+                () => resolve(img);
+
+            img.onerror =
+                () => reject(src);
+
+            img.src =
+                BASE + src;
+
+        });
+
+    }
+
+
+    /* =====================================================
+       DETECTAR SOLAPAMIENTO
+    ===================================================== */
+
+    function seSolapan(a, b) {
+
+        return !(
+
+            a.right <= b.left ||
+            a.left >= b.right ||
+            a.bottom <= b.top ||
+            a.top >= b.bottom
+
+        );
+
+    }
+
+
+    /* =====================================================
+       CREAR CAJA DE COLISIÓN
+    ===================================================== */
+
+    function crearCaja(
+        x,
+        y,
+        width,
+        height
+    ) {
+
+        const espacio =
+            CONFIG.ESPACIO;
+
+        return {
+
+            left:
+                x - espacio,
+
+            top:
+                y - espacio,
+
+            right:
+                x + width + espacio,
+
+            bottom:
+                y + height + espacio
+
+        };
+
+    }
+
+
+    /* =====================================================
+       BUSCAR POSICIÓN
+    ===================================================== */
+
+    function buscarPosicion(
+        width,
+        height,
+        ocupadas,
+        anchoDisponible,
+        altoDisponible
+    ) {
+
+        const centroX =
+            anchoDisponible / 2 -
+            width / 2;
+
+        const centroY =
+            altoDisponible / 2 -
+            height / 2;
+
+
+        const centro =
+            crearCaja(
+                centroX,
+                centroY,
+                width,
+                height
+            );
+
+
+        if (
+            !ocupadas.some(
+                otra =>
+                    seSolapan(
+                        centro,
+                        otra
+                    )
+            )
+        ) {
+
+            return {
+
+                x: centroX,
+                y: centroY
+
+            };
+
+        }
+
+
+        for (
+            let intento = 0;
+            intento < CONFIG.INTENTOS;
+            intento++
+        ) {
+
+            const radio =
+                15 +
+                Math.sqrt(intento) *
+                18;
+
+            const angulo =
+                intento *
+                0.73;
+
+            const x =
+                centroX +
+                Math.cos(angulo) *
+                radio;
+
+            const y =
+                centroY +
+                Math.sin(angulo) *
+                radio;
+
+
+            if (
+
+                x < CONFIG.MARGEN ||
+
+                x + width >
+                    anchoDisponible -
+                    CONFIG.MARGEN
+
+            ) {
+
+                continue;
+
+            }
+
+
+            const caja =
+                crearCaja(
+                    x,
+                    y,
+                    width,
+                    height
+                );
+
+
+            let libre = true;
+
+
+            for (
+                const otra of ocupadas
+            ) {
+
+                if (
+                    seSolapan(
+                        caja,
+                        otra
+                    )
+                ) {
+
+                    libre = false;
+
+                    break;
+
+                }
+
+            }
+
+
+            if (libre) {
+
+                return {
+                    x,
+                    y
+                };
+
+            }
+
+        }
+
+
+        /* =================================================
+           BÚSQUEDA EN REJILLA COMO RESPALDO
+        ================================================= */
+
+        const pasoBusqueda = 12;
+
+
+        for (
+            let y = CONFIG.MARGEN;
+
+            y <
+            altoDisponible - height;
+
+            y += pasoBusqueda
+        ) {
+
+            for (
+                let x = CONFIG.MARGEN;
+
+                x <
+                anchoDisponible - width;
+
+                x += pasoBusqueda
+            ) {
+
+                const caja =
+                    crearCaja(
+                        x,
+                        y,
+                        width,
+                        height
+                    );
+
+
+                if (
+                    !ocupadas.some(
+                        otra =>
+                            seSolapan(
+                                caja,
+                                otra
+                            )
+                    )
+                ) {
+
+                    return {
+                        x,
+                        y
+                    };
+
+                }
+
+            }
+
+        }
+
+
+        return {
+
+            x:
+                Math.max(
+                    CONFIG.MARGEN,
+                    centroX
+                ),
+
+            y:
+                Math.max(
+                    CONFIG.MARGEN,
+                    centroY
+                )
+
+        };
+
+    }
+
+
+    /* =====================================================
+       CREAR NUBE
+    ===================================================== */
+
+    async function crearNube() {
+
+        nube
+            .querySelectorAll(".objeto")
+            .forEach(
+                objeto =>
+                    objeto.remove()
+            );
+
+
+        const viewportWidth =
+            window.innerWidth;
+
+
+        const anchoNube =
+            Math.max(
+                300,
+                viewportWidth *
+                CONFIG.ANCHO_NUBE
+            );
+
+
+        const offsetX =
+            (
+                viewportWidth -
+                anchoNube
+            ) / 2;
+
+
+        let altoNube =
+            Math.max(
+                500,
+                window.innerHeight -
+                64 -
+                135
+            ) *
+            CONFIG.ALTO_INICIAL;
+
+
+        nube.style.height =
+            altoNube + "px";
+
+
+        const orden =
+            mezclar(imagenes);
+
+
+        const ocupadas = [];
+
+
+        /* =================================================
+           CARGAR Y POSICIONAR EN COLA CON CONCURRENCIA
+           LIMITADA (no se espera a que carguen las 351,
+           y tampoco se piden las 351 a la vez: solo
+           CONFIG.CONCURRENCIA a la vez, así las primeras
+           en terminar -las que quedan visibles al entrar-
+           lo hacen mucho más rápido)
+        ================================================= */
+
+        cargarEnCola(orden);
+
+
+        async function cargarEnCola(cola) {
+
+            let siguiente = 0;
+
+
+            async function trabajador() {
+
+                while (siguiente < cola.length) {
+
+                    const indice =
+                        siguiente++;
+
+                    const src =
+                        cola[indice];
+
+                    try {
+
+                        const img =
+                            await cargarImagen(
+                                src
+                            );
+
+                        colocarImagen(
+                            src,
+                            img
+                        );
+
+                    }
+
+                    catch {
+
+                        console.warn(
+                            "No se pudo cargar:",
+                            src
+                        );
+
+                    }
+
+                }
+
+            }
+
+
+            const trabajadores =
+                Array.from(
+                    {
+                        length:
+                            CONFIG.CONCURRENCIA
+                    },
+                    () =>
+                        trabajador()
+                );
+
+
+            await Promise.all(
+                trabajadores
+            );
+
+        }
+
+
+        /* =================================================
+           POSICIONAR UNA IMAGEN
+        ================================================= */
+
+        function colocarImagen(
+            src,
+            img
+        ) {
+
+            const variacion =
+                1 +
+                (
+                    Math.random() * 2 - 1
+                ) *
+                CONFIG.VARIACION_TAMANO;
+
+
+            const width =
+                CONFIG.FOTO_ANCHO *
+                variacion;
+
+
+            const ratio =
+                img.naturalHeight /
+                img.naturalWidth;
+
+
+            const height =
+                width *
+                ratio;
+
+
+            /* =============================================
+               EXTENDER ALTURA SI ES NECESARIO
+            ============================================= */
+
+            if (
+                ocupadas.length > 0
+            ) {
+
+                const mayorY =
+                    Math.max(
+                        ...ocupadas.map(
+                            caja =>
+                                caja.bottom
+                        )
+                    );
+
+
+                if (
+
+                    mayorY +
+                    height +
+                    100 >
+
+                    altoNube
+
+                ) {
+
+                    altoNube =
+                        mayorY +
+                        height +
+                        150;
+
+
+                    nube.style.height =
+                        altoNube + "px";
+
+                }
+
+            }
+
+
+            /* =============================================
+               ENCONTRAR POSICIÓN
+            ============================================= */
+
+            const posicion =
+                buscarPosicion(
+                    width,
+                    height,
+                    ocupadas,
+                    anchoNube,
+                    altoNube
+                );
+
+
+            const x =
+                posicion.x +
+                offsetX;
+
+
+            const y =
+                posicion.y;
+
+
+            /* =============================================
+               CREAR OBJETO
+            ============================================= */
+
+            const objeto =
+                document.createElement(
+                    "div"
+                );
+
+
+            objeto.className =
+                "objeto";
+
+
+            objeto.style.width =
+                width + "px";
+
+
+            objeto.style.left =
+                x + "px";
+
+
+            objeto.style.top =
+                y + "px";
+
+
+            /* =============================================
+               CREAR IMAGEN
+            ============================================= */
+
+            const imagen =
+                document.createElement(
+                    "img"
+                );
+
+
+            imagen.src =
+                BASE +
+                src;
+
+
+            imagen.alt = "";
+
+            imagen.decoding = "async";
+
+
+            objeto.appendChild(
+                imagen
+            );
+
+
+            nube.appendChild(
+                objeto
+            );
+
+
+            /* =============================================
+               REGISTRAR ESPACIO OCUPADO
+            ============================================= */
+
+            ocupadas.push(
+
+                crearCaja(
+                    posicion.x,
+                    posicion.y,
+                    width,
+                    height
+                )
+
+            );
+
+
+            /* =============================================
+               ABRIR FOTO
+            ============================================= */
+
+            objeto.addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+
+                    if (
+                        objeto.classList.contains(
+                            "activo"
+                        )
+                    ) {
+
+                        cerrarFoto();
+
+                        return;
+
+                    }
+
+
+                    document
+                        .querySelectorAll(
+                            ".objeto.activo"
+                        )
+                        .forEach(
+                            elemento =>
+                                elemento.classList.remove(
+                                    "activo"
+                                )
+                        );
+
+
+                    objeto.classList.add(
+                        "activo"
+                    );
+
+
+                    document.body.classList.add(
+                        "foto-abierta"
+                    );
+
+                }
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CERRAR FOTO
+    ===================================================== */
+
+    function cerrarFoto() {
+
+        document
+            .querySelectorAll(
+                ".objeto.activo"
+            )
+            .forEach(
+                elemento =>
+                    elemento.classList.remove(
+                        "activo"
+                    )
+            );
+
+
+        document.body.classList.remove(
+            "foto-abierta"
+        );
+
+    }
+
+
+    /* =====================================================
+       CERRAR AL HACER CLICK FUERA
+    ===================================================== */
+
+    document.addEventListener(
+        "click",
+        function() {
+
+            cerrarFoto();
+
+        }
+    );
+
+
+    /* =====================================================
+       ESCAPE
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                cerrarFoto();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       INICIAR
+    ===================================================== */
+
+    crearNube();
+
+
+    /* =====================================================
+       REGENERAR AL CAMBIAR TAMAÑO
+    ===================================================== */
+
+    let resizeTimer;
+
+
+    window.addEventListener(
+        "resize",
+        function() {
+
+            clearTimeout(
+                resizeTimer
+            );
+
+
+            resizeTimer =
+                setTimeout(
+                    function() {
+
+                        cerrarFoto();
+
+                        crearNube();
+
+                    },
+                    300
+                );
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

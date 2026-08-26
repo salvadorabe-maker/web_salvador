@@ -1,0 +1,1036 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Portafolio | Salvador Abé Castro</title>
+
+    <meta
+        name="description"
+        content="Portafolio de arquitectura de Salvador Abé"
+    >
+
+    <style>
+
+        /* =====================================================
+           BASE
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: #ffffff;
+            color: #111111;
+
+            font-family:
+                Helvetica,
+                Arial,
+                sans-serif;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        header {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+
+            padding: 22px 28px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            z-index: 100;
+
+            pointer-events: none;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           NOMBRE
+        ===================================================== */
+
+        .nombre {
+
+            color: #111111;
+
+            text-decoration: none;
+
+            pointer-events: auto;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           NAVEGACIÓN HEADER
+        ===================================================== */
+
+        .navegacion {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+        }
+
+
+        .navegacion a {
+
+            color: #111111;
+
+            text-decoration: none;
+
+            pointer-events: auto;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           PORTAFOLIO
+        ===================================================== */
+
+        .portafolio {
+
+            width: 100%;
+
+            min-height: 100vh;
+
+            padding:
+                90px
+                40px
+                50px;
+        }
+
+
+        /* =====================================================
+           GRILLA 6 x 6
+        ===================================================== */
+
+        .grilla {
+
+            width: 100%;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(6, 1fr);
+
+            gap: 18px;
+
+            max-width: 1800px;
+
+            margin: 0 auto;
+        }
+
+
+        /* =====================================================
+           LÁMINAS
+        ===================================================== */
+
+        .objeto {
+
+            position: relative;
+
+            width: 100%;
+
+            cursor: pointer;
+
+            z-index: 1;
+        }
+
+
+        .objeto img {
+
+            display: block;
+
+            width: 100%;
+
+            height: auto;
+
+            box-shadow:
+                0 4px 16px rgba(0,0,0,0.06);
+
+            transition:
+                box-shadow 0.35s ease;
+        }
+
+
+        /* =====================================================
+           HOVER
+        ===================================================== */
+
+        .objeto:hover {
+
+            z-index: 10;
+
+            transform:
+                translateY(-5px)
+                scale(1.025);
+        }
+
+
+        .objeto:hover img {
+
+            box-shadow:
+                0 14px 35px rgba(0,0,0,0.14);
+        }
+
+
+        /* =====================================================
+           ESTADO ACTIVO
+        ===================================================== */
+
+        .objeto.activo {
+
+            position: fixed !important;
+
+            left: 50% !important;
+            top: 50% !important;
+
+            width: auto !important;
+            height: auto !important;
+
+            max-width: 86vw !important;
+            max-height: 82vh !important;
+
+            transform:
+                translate(-50%, -50%) !important;
+
+            opacity: 1;
+
+            z-index: 1000;
+
+            cursor: default;
+        }
+
+
+        /* =====================================================
+           TRANSICIONES
+        ===================================================== */
+
+        .objeto.transicion-salida {
+
+            opacity: 0 !important;
+
+            transition:
+                opacity 0.18s ease-out;
+        }
+
+
+        .objeto.transicion-entrada {
+
+            opacity: 0 !important;
+
+            transition:
+                opacity 0.18s ease-out;
+        }
+
+
+        .objeto.activo img {
+
+            width: auto;
+
+            height: auto;
+
+            max-width: 86vw;
+            max-height: 82vh;
+
+            object-fit: contain;
+        }
+
+
+        /* =====================================================
+           OBJETOS OCULTOS
+        ===================================================== */
+
+        .objeto.oculto {
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           CERRAR
+        ===================================================== */
+
+        .cerrar {
+
+            position: fixed;
+
+            top: 16px;
+            right: 24px;
+
+            z-index: 2000;
+
+            border: none;
+            background: none;
+
+            font-family:
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            font-size: 28px;
+
+            font-weight: 300;
+
+            cursor: pointer;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                opacity 0.3s ease;
+        }
+
+
+        .cerrar.visible {
+
+            opacity: 1;
+
+            pointer-events: auto;
+        }
+
+
+        /* =====================================================
+           CONTADOR
+        ===================================================== */
+
+        .contador {
+
+            position: fixed;
+
+            left: 28px;
+            bottom: 22px;
+
+            z-index: 2000;
+
+            font-size: 11px;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                opacity 0.3s ease;
+        }
+
+
+        .contador.visible {
+
+            opacity: 1;
+        }
+
+
+        /* =====================================================
+           NAVEGACIÓN
+        ===================================================== */
+
+        .nav {
+
+            position: fixed;
+
+            right: 28px;
+            bottom: 18px;
+
+            z-index: 2000;
+
+            display: flex;
+
+            gap: 15px;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                opacity 0.3s ease;
+        }
+
+
+        .nav.visible {
+
+            opacity: 1;
+
+            pointer-events: auto;
+        }
+
+
+        .nav button {
+
+            border: none;
+            background: none;
+
+            font-family:
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            font-size: 18px;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .grilla {
+
+                grid-template-columns:
+                    repeat(4, 1fr);
+
+                gap: 14px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            header {
+
+                padding:
+                    18px;
+
+                font-size: 11px;
+            }
+
+
+            .navegacion {
+
+                gap: 20px;
+            }
+
+
+            .portafolio {
+
+                padding:
+                    70px
+                    18px
+                    40px;
+            }
+
+
+            .grilla {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 12px;
+            }
+
+
+            .objeto.activo img {
+
+                max-width: 92vw;
+                max-height: 82vh;
+            }
+
+
+            .contador {
+
+                left: 18px;
+                bottom: 18px;
+            }
+
+
+            .nav {
+
+                right: 18px;
+                bottom: 16px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================== -->
+
+<header>
+
+    <a
+        href="index 2.html"
+        class="nombre"
+        id="nombre"
+    >
+        Salvador Abé Castro
+    </a>
+
+
+    <div class="navegacion">
+
+        <a href="atlas.html">
+            Atlas
+        </a>
+
+        <span>
+            Portafolio
+        </span>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     PORTAFOLIO
+========================================================== -->
+
+<main class="portafolio">
+
+    <div class="grilla">
+
+
+        <!-- 01 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 .webp" alt="">
+        </div>
+
+
+        <!-- 02 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 2.webp" alt="">
+        </div>
+
+
+        <!-- 03 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 3.webp" alt="">
+        </div>
+
+
+        <!-- 04 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 4.webp" alt="">
+        </div>
+
+
+        <!-- 05 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 5.webp" alt="">
+        </div>
+
+
+        <!-- 06 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 6.webp" alt="">
+        </div>
+
+
+        <!-- 07 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 7.webp" alt="">
+        </div>
+
+
+        <!-- 08 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 8.webp" alt="">
+        </div>
+
+
+        <!-- 09 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 9.webp" alt="">
+        </div>
+
+
+        <!-- 10 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 10.webp" alt="">
+        </div>
+
+
+        <!-- 11 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 11.webp" alt="">
+        </div>
+
+
+        <!-- 12 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 12.webp" alt="">
+        </div>
+
+
+        <!-- 13 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 13.webp" alt="">
+        </div>
+
+
+        <!-- 14 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 14.webp" alt="">
+        </div>
+
+
+        <!-- 15 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 15.webp" alt="">
+        </div>
+
+
+        <!-- 16 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 16.webp" alt="">
+        </div>
+
+
+        <!-- 17 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 17.webp" alt="">
+        </div>
+
+
+        <!-- 18 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 18.webp" alt="">
+        </div>
+
+
+        <!-- 19 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 19.webp" alt="">
+        </div>
+
+
+        <!-- 20 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 20.webp" alt="">
+        </div>
+
+
+        <!-- 21 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 21.webp" alt="">
+        </div>
+
+
+        <!-- 22 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 22.webp" alt="">
+        </div>
+
+
+        <!-- 23 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 23.webp" alt="">
+        </div>
+
+
+        <!-- 24 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 24.webp" alt="">
+        </div>
+
+
+        <!-- 25 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 25.webp" alt="">
+        </div>
+
+
+        <!-- 26 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 26.webp" alt="">
+        </div>
+
+
+        <!-- 27 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 27.webp" alt="">
+        </div>
+
+
+        <!-- 28 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 28.webp" alt="">
+        </div>
+
+
+        <!-- 29 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 29.webp" alt="">
+        </div>
+
+
+        <!-- 30 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 30.webp" alt="">
+        </div>
+
+
+        <!-- 31 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 31.webp" alt="">
+        </div>
+
+
+        <!-- 32 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 32.webp" alt="">
+        </div>
+
+
+        <!-- 33 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 33.webp" alt="">
+        </div>
+
+
+        <!-- 34 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 34.webp" alt="">
+        </div>
+
+
+        <!-- 35 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 35.webp" alt="">
+        </div>
+
+
+        <!-- 36 -->
+        <div class="objeto">
+            <img src="images/Portafolio/Portafolio Salvador0 36.webp" alt="">
+        </div>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- =========================================================
+     CONTROLES
+========================================================== -->
+
+<button class="cerrar">
+    ×
+</button>
+
+
+<div class="contador">
+
+    <span id="actual">01</span>
+
+    /
+
+    <span id="total">36</span>
+
+</div>
+
+
+<div class="nav">
+
+    <button id="anterior">
+        ←
+    </button>
+
+    <button id="siguiente">
+        →
+    </button>
+
+</div>
+
+
+
+<script>
+
+    const objetos =
+        document.querySelectorAll(".objeto");
+
+    const cerrar =
+        document.querySelector(".cerrar");
+
+    const contador =
+        document.querySelector(".contador");
+
+    const actual =
+        document.querySelector("#actual");
+
+    const total =
+        document.querySelector("#total");
+
+    const anterior =
+        document.querySelector("#anterior");
+
+    const siguiente =
+        document.querySelector("#siguiente");
+
+
+    let indiceActivo = null;
+
+
+    total.textContent =
+        String(objetos.length)
+            .padStart(2, "0");
+
+
+    /* =====================================================
+       ABRIR
+    ===================================================== */
+
+    objetos.forEach(
+        (objeto, index) => {
+
+            objeto.addEventListener(
+                "click",
+                () => {
+
+                    indiceActivo = index;
+
+
+                    objetos.forEach(
+                        (otro, otroIndex) => {
+
+                            if (otroIndex === index) {
+
+                                otro.classList.add(
+                                    "activo"
+                                );
+
+                            } else {
+
+                                otro.classList.add(
+                                    "oculto"
+                                );
+
+                            }
+
+                        }
+                    );
+
+
+                    actualizarContador();
+
+
+                    cerrar.classList.add(
+                        "visible"
+                    );
+
+                    contador.classList.add(
+                        "visible"
+                    );
+
+                    document
+                        .querySelector(".nav")
+                        .classList.add(
+                            "visible"
+                        );
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       CONTADOR
+    ===================================================== */
+
+    function actualizarContador() {
+
+        actual.textContent =
+            String(indiceActivo + 1)
+                .padStart(2, "0");
+
+    }
+
+
+    /* =====================================================
+       MOSTRAR
+    ===================================================== */
+
+    function mostrar(index) {
+
+        if (index < 0) {
+            index = objetos.length - 1;
+        }
+
+
+        if (index >= objetos.length) {
+            index = 0;
+        }
+
+
+        objetos.forEach(
+            objeto => {
+
+                objeto.classList.remove("activo");
+                objeto.classList.add("oculto");
+
+            }
+        );
+
+
+        objetos[index]
+            .classList.remove("oculto");
+
+        objetos[index]
+            .classList.add("activo");
+
+
+        indiceActivo = index;
+
+        actualizarContador();
+
+    }
+
+
+    /* =====================================================
+       CERRAR
+    ===================================================== */
+
+    function cerrarAtlas() {
+
+        objetos.forEach(
+            objeto => {
+
+                objeto.classList.remove("activo");
+                objeto.classList.remove("oculto");
+
+            }
+        );
+
+
+        cerrar.classList.remove("visible");
+
+        contador.classList.remove("visible");
+
+        document
+            .querySelector(".nav")
+            .classList.remove("visible");
+
+
+        indiceActivo = null;
+
+    }
+
+
+    cerrar.addEventListener(
+        "click",
+        cerrarAtlas
+    );
+
+
+    /* =====================================================
+       NAVEGACIÓN
+    ===================================================== */
+
+    anterior.addEventListener(
+        "click",
+        () => {
+
+            if (indiceActivo !== null) {
+
+                mostrar(
+                    indiceActivo - 1
+                );
+
+            }
+
+        }
+    );
+
+
+    siguiente.addEventListener(
+        "click",
+        () => {
+
+            if (indiceActivo !== null) {
+
+                mostrar(
+                    indiceActivo + 1
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       TECLADO
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (indiceActivo === null) {
+                return;
+            }
+
+
+            if (event.key === "Escape") {
+                cerrarAtlas();
+            }
+
+
+            if (event.key === "ArrowLeft") {
+                mostrar(indiceActivo - 1);
+            }
+
+
+            if (event.key === "ArrowRight") {
+                mostrar(indiceActivo + 1);
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
+```

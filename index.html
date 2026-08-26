@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Salvador Abé Castro</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap"
+    rel="stylesheet"
+>
+
+
+<style>
+
+/* =====================================================
+   BASE
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    font-family:
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+
+/* =====================================================
+   PORTADA
+===================================================== */
+
+.portada {
+
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   CAMPO DE COLOR
+===================================================== */
+
+.color {
+
+    position: fixed;
+
+    inset: -15%;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    /*
+       El círculo empieza completamente cerrado.
+       El centro coincide con el nombre.
+    */
+
+    clip-path:
+
+        circle(
+            0%
+            at 50% 50%
+        );
+
+    opacity: 0;
+
+    transition:
+
+        clip-path 8s
+        cubic-bezier(.16,.6,.14,1),
+
+        opacity 2s ease;
+
+
+    /*
+       CAMPO CROMÁTICO PRINCIPAL
+    */
+
+    background:
+
+        radial-gradient(
+
+            circle at 10% 10%,
+
+            #2455ff 0%,
+            #2455ff 7%,
+
+            #394fe8 10%,
+            #6048d0 18%,
+
+            #8b43b8 30%,
+            #b83f9b 42%,
+
+            #d9427d 55%,
+            #e94762 68%,
+
+            #ef4e4b 82%,
+            #f96a40 100%
+        );
+
+    background-blend-mode:
+        normal;
+}
+
+
+/* =====================================================
+   SEGUNDA CAPA CROMÁTICA
+===================================================== */
+
+.color::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+
+        radial-gradient(
+
+            circle at 68% 38%,
+
+            rgba(
+                255,
+                93,
+                55,
+                0.45
+            )
+            0%,
+
+            rgba(
+                255,
+                93,
+                55,
+                0.22
+            )
+            25%,
+
+            transparent
+            58%
+        ),
+
+        radial-gradient(
+
+            circle at 30% 68%,
+
+            rgba(
+                109,
+                55,
+                205,
+                0.30
+            )
+            0%,
+
+            rgba(
+                109,
+                55,
+                205,
+                0.12
+            )
+            30%,
+
+            transparent
+            60%
+        );
+
+    filter:
+        blur(25px);
+
+    transform:
+        scale(1.08);
+}
+
+
+/* =====================================================
+   RUIDO
+===================================================== */
+
+.color::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.09;
+
+    mix-blend-mode:
+        soft-light;
+
+    background-image:
+
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch' result='base'/%3E%3CfeColorMatrix in='base' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0' result='mono'/%3E%3CfeGaussianBlur in='mono' stdDeviation='.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+
+    background-size:
+        180px 180px;
+}
+
+
+/* =====================================================
+   ACTIVACIÓN DEL COLOR
+===================================================== */
+
+.interaccion:hover ~ .color {
+
+    clip-path:
+
+        circle(
+            100%
+            at 50% 50%
+        );
+
+    opacity: 1;
+}
+
+
+.nombre:hover {
+
+    z-index: 50;
+}
+
+
+/* =====================================================
+   ZONA DE INTERACCIÓN
+===================================================== */
+
+.interaccion {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 520px;
+    height: 520px;
+
+    transform:
+        translate(-50%, -50%);
+
+    z-index: 20;
+}
+
+
+/* =====================================================
+   NOMBRE
+===================================================== */
+
+.nombre {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    font-family:
+
+        "Archivo Black",
+        "Arial Black",
+        Arial,
+        sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 400;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.01em;
+
+    white-space:
+        nowrap;
+
+    z-index: 40;
+
+    cursor:
+        pointer;
+
+    user-select:
+        none;
+
+    color:
+        transparent;
+
+    -webkit-text-stroke:
+        0.5px #111111;
+
+    transition:
+
+        color 0.25s ease,
+
+        -webkit-text-stroke-color 0.25s ease;
+}
+
+
+/* =====================================================
+   NOMBRE SOBRE COLOR
+===================================================== */
+
+.interaccion:hover .nombre {
+
+    color:
+        #ffffff;
+
+    -webkit-text-stroke:
+        1px transparent;
+}
+
+
+/* =====================================================
+   PIE MENU
+===================================================== */
+
+.pie-menu {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 520px;
+    height: 520px;
+
+    transform:
+        translate(-50%, -50%);
+
+    z-index: 10;
+
+    opacity: 0;
+
+    pointer-events:
+        none;
+
+    transition:
+
+        opacity 0.7s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+.interaccion:hover .pie-menu {
+
+    opacity: 1;
+
+    pointer-events:
+        auto;
+}
+
+
+/* =====================================================
+   CÍRCULO
+===================================================== */
+
+.radial {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 270px;
+    height: 270px;
+
+    transform:
+        translate(-50%, -50%);
+
+    border:
+
+        1px solid
+        rgba(17,17,17,0.35);
+
+    border-radius:
+        50%;
+
+    pointer-events:
+        none;
+
+    z-index: 15;
+
+    transition:
+        border-color 0.3s ease;
+}
+
+
+.interaccion:hover .radial {
+
+    border-color:
+        rgba(255,255,255,0.55);
+}
+
+
+/* =====================================================
+   OPCIONES
+===================================================== */
+
+.opcion {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    font-family:
+
+        "Archivo Black",
+        "Arial Black",
+        Arial,
+        sans-serif;
+
+    font-size:
+        11.5px;
+
+    font-weight:
+        400;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        0.01em;
+
+    white-space:
+        nowrap;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.567
+        );
+
+    cursor:
+        pointer;
+
+    user-select:
+        none;
+
+    transition:
+
+        color 0.22s ease,
+        opacity 0.22s ease;
+
+    z-index:
+        30;
+}
+
+
+/* =====================================================
+   OPCIÓN ACTIVA
+===================================================== */
+
+.opcion.activa {
+
+    color:
+        #ffffff;
+}
+
+/* =====================================================
+   POSICIONES
+===================================================== */
+
+/*
+   RADIO BASE
+
+   Atlas define la distancia que nos gusta.
+*/
+
+:root {
+
+    --radio:
+        190px;
+}
+
+
+/* =====================================================
+   ARRIBA
+   Atlas
+===================================================== */
+
+.opcion[data-sector="0"] {
+
+    transform:
+
+        translate(
+            -50%,
+            calc(
+                -1 *
+                var(--radio)
+            )
+        )
+
+        translateY(
+            -50%
+        );
+}
+
+
+/* =====================================================
+   ARRIBA DERECHA
+   Portafolio
+===================================================== */
+
+.opcion[data-sector="1"] {
+
+    transform:
+
+        translate(
+            134px,
+            -134px
+        );
+}
+
+
+/* =====================================================
+   DERECHA
+   SoundCloud
+===================================================== */
+
+/*
+   IMPORTANTE:
+
+   Aquí NO centramos horizontalmente
+   la palabra.
+
+   El borde izquierdo de SoundCloud
+   queda exactamente sobre el radio.
+*/
+
+.opcion[data-sector="2"] {
+
+    transform:
+
+        translate(
+            var(--radio),
+            -50%
+        );
+}
+
+
+/* =====================================================
+   ABAJO DERECHA
+   YouTube
+===================================================== */
+
+.opcion[data-sector="3"] {
+
+    transform:
+
+        translate(
+            134px,
+            134px
+        );
+}
+
+
+/* =====================================================
+   ABAJO
+   Flickr
+===================================================== */
+
+.opcion[data-sector="4"] {
+
+    transform:
+
+        translate(
+            -50%,
+            var(--radio)
+        );
+}
+
+
+/* =====================================================
+   ABAJO IZQUIERDA
+   Spotify
+===================================================== */
+
+.opcion[data-sector="5"] {
+
+    transform:
+
+        translate(
+            calc(
+                -134px -
+                100%
+            ),
+            134px
+        );
+}
+
+
+/* =====================================================
+   IZQUIERDA
+   PÁGINA LOICA
+===================================================== */
+
+/*
+   IMPORTANTE:
+
+   Aquí el borde derecho de la palabra
+   queda exactamente sobre el radio.
+
+   Por eso PÁGINA LOICA no se mete
+   hacia el centro.
+*/
+
+.opcion[data-sector="6"] {
+
+    transform:
+
+        translate(
+            calc(
+                -1 *
+                var(--radio) -
+                100%
+            ),
+            -50%
+        );
+}
+
+
+/* =====================================================
+   ARRIBA IZQUIERDA
+   AVD
+===================================================== */
+
+.opcion[data-sector="7"] {
+
+    transform:
+
+        translate(
+            calc(
+                -134px -
+                100%
+            ),
+            -134px
+        );
+}
+
+
+
+/* =====================================================
+   ÁNGULO
+===================================================== */
+
+.angulo {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(
+            -50%,
+            78px
+        );
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        0.05em;
+
+    color:
+        rgb(
+            255,
+            255,
+            255
+        );
+
+    white-space:
+        nowrap;
+
+    pointer-events:
+        none;
+
+    opacity:
+        0;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+
+.interaccion:hover .angulo {
+
+    opacity:
+        1;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .interaccion {
+
+        width:
+            400px;
+
+        height:
+            400px;
+    }
+
+
+    .pie-menu {
+
+        width:
+            400px;
+
+        height:
+            400px;
+    }
+
+
+    .radial {
+
+        width:
+            220px;
+
+        height:
+            220px;
+    }
+
+
+    .opcion {
+
+        font-size:
+            14px;
+    }
+
+
+    .opcion[data-sector="0"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateY(
+                -150px
+            );
+    }
+
+
+    .opcion[data-sector="1"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                106px,
+                -106px
+            );
+    }
+
+
+    .opcion[data-sector="2"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateX(
+                150px
+            );
+    }
+
+
+    .opcion[data-sector="3"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                106px,
+                106px
+            );
+    }
+
+
+    .opcion[data-sector="4"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateY(
+                150px
+            );
+    }
+
+
+    .opcion[data-sector="5"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                -106px,
+                106px
+            );
+    }
+
+
+    .opcion[data-sector="6"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateX(
+                -150px
+            );
+    }
+
+
+    .opcion[data-sector="7"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                -106px,
+                -106px
+            );
+    }
+
+
+    .nombre {
+
+        font-size:
+            17px;
+    }
+
+
+    .color {
+
+        inset:
+            -25%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div
+    class="portada"
+    id="portada"
+>
+
+
+    <!-- =================================================
+         ZONA DE INTERACCIÓN
+    ================================================== -->
+
+    <div
+        class="interaccion"
+        id="interaccion"
+    >
+
+
+        <!-- =================================================
+             NOMBRE
+        ================================================== -->
+
+        <div
+            class="nombre"
+        >
+            Salvador Abé Castro
+        </div>
+
+
+        <!-- =================================================
+             CÍRCULO
+        ================================================== -->
+
+        <div
+            class="radial"
+        ></div>
+
+
+        <!-- =================================================
+             PIE MENU
+        ================================================== -->
+
+        <div
+            class="pie-menu"
+            id="pieMenu"
+        >
+
+
+            <!-- =================================================
+                 OPCIONES
+            ================================================== -->
+
+
+            <!-- ATLAS -->
+
+            <div
+                class="opcion"
+
+                data-sector="0"
+
+                data-link="atlas.html"
+
+                data-externo="false"
+            >
+                Atlas
+            </div>
+
+
+            <!-- PORTAFOLIO -->
+
+            <div
+                class="opcion"
+
+                data-sector="1"
+
+                data-link="portafolio.html"
+
+                data-externo="false"
+            >
+                Portafolio
+            </div>
+
+
+            <!-- SOUNDCLOUD -->
+
+            <div
+                class="opcion"
+
+                data-sector="2"
+
+                data-link="https://soundcloud.com/salvadorabe"
+
+                data-externo="true"
+            >
+                SoundCloud
+            </div>
+
+
+            <!-- YOUTUBE -->
+
+            <div
+                class="opcion"
+
+                data-sector="3"
+
+                data-link="https://youtube.com/@salvadorabe?si=EsTIwUUoyjb73-e1"
+
+                data-externo="true"
+            >
+                YouTube
+            </div>
+
+
+            <!-- FLICKR -->
+
+            <div
+                class="opcion"
+
+                data-sector="4"
+
+                data-link="https://www.flickr.com/photos/salvadorabe"
+
+                data-externo="true"
+            >
+                Flickr
+            </div>
+
+
+            <!-- SPOTIFY -->
+
+            <div
+                class="opcion"
+
+                data-sector="5"
+
+                data-link="AQUI_TU_LINK_DE_SPOTIFY"
+
+                data-externo="true"
+            >
+                Spotify
+            </div>
+
+
+            <!-- PÁGINA LOICA -->
+
+            <div
+                class="opcion"
+
+                data-sector="6"
+
+                data-link="https://loicaestudio.cl/"
+
+                data-externo="true"
+            >
+                PÁGINA LOICA
+            </div>
+
+
+            <!-- AVD -->
+
+            <div
+                class="opcion"
+
+                data-sector="7"
+
+                data-link="AQUI_TU_SEXTO_LINK"
+
+                data-externo="true"
+            >
+                AVD
+            </div>
+
+
+            <!-- =================================================
+                 ÁNGULO
+            ================================================== -->
+
+            <div
+                class="angulo"
+                id="angulo"
+            >
+                0°
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         CAMPO DE COLOR
+    ================================================== -->
+
+    <div
+        class="color"
+        id="color"
+    ></div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const interaccion =
+    document.getElementById(
+        "interaccion"
+    );
+
+
+const opciones =
+    document.querySelectorAll(
+        ".opcion"
+    );
+
+
+const angulo =
+    document.getElementById(
+        "angulo"
+    );
+
+
+/* =====================================================
+   CONFIGURACIÓN
+===================================================== */
+
+const sectores =
+    8;
+
+
+const paso =
+    360 / sectores;
+
+
+/* =====================================================
+   MOUSE
+===================================================== */
+
+document.addEventListener(
+
+    "mousemove",
+
+    function(event) {
+
+
+        /*
+           Centro geométrico
+           de la portada.
+        */
+
+        const centroX =
+            window.innerWidth / 2;
+
+
+        const centroY =
+            window.innerHeight / 2;
+
+
+        const dx =
+            event.clientX -
+            centroX;
+
+
+        const dy =
+            event.clientY -
+            centroY;
+
+
+        /*
+           Si el menú no está activo,
+           eliminamos la selección.
+        */
+
+        if (
+            !interaccion.matches(
+                ":hover"
+            )
+        ) {
+
+            opciones.forEach(
+
+                opcion =>
+
+                    opcion.classList.remove(
+                        "activa"
+                    )
+
+            );
+
+            return;
+        }
+
+
+        /* =============================================
+           ÁNGULO
+
+           0°   = arriba
+           90°  = derecha
+           180° = abajo
+           270° = izquierda
+        ============================================= */
+
+        let grados =
+
+            Math.atan2(
+                dy,
+                dx
+            ) *
+
+            180 /
+            Math.PI;
+
+
+        grados +=
+            90;
+
+
+        if (
+            grados < 0
+        ) {
+
+            grados +=
+                360;
+        }
+
+
+        if (
+            grados >= 360
+        ) {
+
+            grados -=
+                360;
+        }
+
+
+        /* =============================================
+           MOSTRAR ÁNGULO
+        ============================================= */
+
+        angulo.textContent =
+
+            Math.round(
+                grados
+            ) +
+
+            "°";
+
+
+        /* =============================================
+           SECTOR
+        ============================================= */
+
+        const sector =
+
+            Math.floor(
+
+                (
+                    grados +
+                    paso / 2
+                )
+
+                /
+
+                paso
+
+            )
+
+            %
+
+            sectores;
+
+
+        /* =============================================
+           MARCAR OPCIÓN
+        ============================================= */
+
+        opciones.forEach(
+
+            opcion => {
+
+
+                const numero =
+
+                    Number(
+                        opcion.dataset.sector
+                    );
+
+
+                opcion.classList.toggle(
+
+                    "activa",
+
+                    numero === sector
+
+                );
+
+            }
+
+        );
+
+    }
+
+);
+
+
+/* =====================================================
+   CLICK EN OPCIONES
+===================================================== */
+
+opciones.forEach(
+
+    opcion => {
+
+        opcion.addEventListener(
+
+            "click",
+
+            function() {
+
+
+                /*
+                   Leemos directamente
+                   el link de esta opción.
+                */
+
+                const link =
+                    opcion.dataset.link;
+
+
+                /*
+                   Leemos si debe abrirse
+                   en otra pestaña.
+                */
+
+                const externo =
+                    opcion.dataset.externo ===
+                    "true";
+
+
+                /*
+                   Si no existe link,
+                   no hacemos nada.
+                */
+
+                if (
+                    !link
+                ) {
+
+                    return;
+                }
+
+
+                /*
+                   LINK EXTERNO
+                */
+
+                if (
+                    externo
+                ) {
+
+                    window.open(
+                        link,
+                        "_blank"
+                    );
+
+                }
+
+
+                /*
+                   LINK INTERNO
+                */
+
+                else {
+
+                    window.location.href =
+                        link;
+
+                }
+
+            }
+
+        );
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>
