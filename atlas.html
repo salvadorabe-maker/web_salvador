@@ -29,7 +29,7 @@
             --header-alto: 64px;
 
             /* Altura del margen blanco reservado para la ficha */
-            --margen-atlas: 170px;
+            --margen-atlas: 190px;
         }
 
         html,
@@ -495,6 +495,38 @@ Colección miscelánea de fotografías tomadas con distintos medios.
         CONCURRENCIA: 8
 
     };
+
+
+    /* =====================================================
+       ANCHO DE FOTO SEGÚN PANTALLA
+
+       En celular, 150px es demasiado grande en relación
+       al ancho disponible: quedan pocas combinaciones
+       posibles y el algoritmo de acomodo termina forzando
+       superposiciones. Achicamos la foto base según el
+       viewport para que quepan varias por fila.
+    ===================================================== */
+
+    function calcularFotoAncho() {
+
+        const vw =
+            window.innerWidth;
+
+        if (vw <= 380) {
+
+            return 78;
+
+        }
+
+        if (vw <= 700) {
+
+            return 100;
+
+        }
+
+        return CONFIG.FOTO_ANCHO;
+
+    }
 
 
     /* =====================================================
@@ -1010,7 +1042,8 @@ Colección miscelánea de fotografías tomadas con distintos medios.
         height,
         ocupadas,
         anchoDisponible,
-        altoDisponible
+        altoDisponible,
+        pasoBusquedaGrilla
     ) {
 
         const centroX =
@@ -1140,7 +1173,9 @@ Colección miscelánea de fotografías tomadas con distintos medios.
            BÚSQUEDA EN REJILLA COMO RESPALDO
         ================================================= */
 
-        const pasoBusqueda = 12;
+        const pasoBusqueda =
+            pasoBusquedaGrilla ||
+            12;
 
 
         for (
@@ -1192,19 +1227,37 @@ Colección miscelánea de fotografías tomadas con distintos medios.
         }
 
 
+        /* =================================================
+           ÚLTIMO RECURSO: agregar espacio abajo
+
+           Si ni la rejilla encontró un hueco libre
+           (nube demasiado angosta / muchas fotos),
+           en vez de devolver una posición que se
+           sabe que se va a superponer, se coloca la
+           foto más abajo del punto más bajo ocupado.
+           Esto es lo que evita que en pantallas
+           angostas terminen dos fotos una encima
+           de la otra.
+        ================================================= */
+
+        const mayorYOcupado =
+            ocupadas.length > 0 ?
+                Math.max(
+                    ...ocupadas.map(
+                        caja => caja.bottom
+                    )
+                ) :
+                CONFIG.MARGEN;
+
+
         return {
 
             x:
-                Math.max(
-                    CONFIG.MARGEN,
-                    centroX
-                ),
+                CONFIG.MARGEN,
 
             y:
-                Math.max(
-                    CONFIG.MARGEN,
-                    centroY
-                )
+                mayorYOcupado +
+                CONFIG.ESPACIO
 
         };
 
@@ -1244,18 +1297,60 @@ Colección miscelánea de fotografías tomadas con distintos medios.
             ) / 2;
 
 
+        /* =================================================
+           ALTURA RESERVADA POR HEADER + MARGEN EDITORIAL
+
+           Se lee la altura real ya renderizada (que cambia
+           según el breakpoint móvil) en vez de restar
+           números fijos pensados solo para escritorio.
+        ================================================= */
+
+        const headerEl =
+            document.querySelector("header");
+
+
+        const margenEl =
+            document.querySelector(".margen-atlas");
+
+
+        const reservado =
+            (headerEl ? headerEl.offsetHeight : 64) +
+            (margenEl ? margenEl.offsetHeight : 145);
+
+
         let altoNube =
             Math.max(
                 500,
                 window.innerHeight -
-                64 -
-                135
+                reservado
             ) *
             CONFIG.ALTO_INICIAL;
 
 
         nube.style.height =
             altoNube + "px";
+
+
+        /* =================================================
+           ANCHO DE FOTO PARA ESTA GENERACIÓN
+
+           Se recalcula cada vez que se arma la nube
+           (incluido en el resize), así responde al
+           tamaño de pantalla actual.
+        ================================================= */
+
+        const fotoAncho =
+            calcularFotoAncho();
+
+
+        /* Rejilla de respaldo más fina en pantallas
+           angostas, para encontrar huecos pequeños
+           entre fotos ya colocadas. */
+
+        const pasoBusquedaGrilla =
+            fotoAncho <= 90 ?
+                6 :
+                12;
 
 
         const orden =
@@ -1356,7 +1451,7 @@ Colección miscelánea de fotografías tomadas con distintos medios.
 
 
             const width =
-                CONFIG.FOTO_ANCHO *
+                fotoAncho *
                 variacion;
 
 
@@ -1421,8 +1516,34 @@ Colección miscelánea de fotografías tomadas con distintos medios.
                     height,
                     ocupadas,
                     anchoNube,
-                    altoNube
+                    altoNube,
+                    pasoBusquedaGrilla
                 );
+
+
+            /* =============================================
+               SI LA POSICIÓN CAYÓ MÁS ABAJO DE LA ALTURA
+               ACTUAL (último recurso), EXTENDER LA NUBE
+            ============================================= */
+
+            if (
+                posicion.y +
+                height +
+                CONFIG.MARGEN >
+
+                altoNube
+            ) {
+
+                altoNube =
+                    posicion.y +
+                    height +
+                    CONFIG.MARGEN;
+
+
+                nube.style.height =
+                    altoNube + "px";
+
+            }
 
 
             const x =

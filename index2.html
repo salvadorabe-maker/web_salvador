@@ -55,6 +55,7 @@ body {
 
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
 
     display: flex;
 
@@ -142,11 +143,13 @@ body {
 
 
 /*
-   El menú aparece solamente cuando el mouse
-   está dentro de la zona de interacción.
+   El menú aparece cuando el mouse está
+   dentro de la zona de interacción,
+   o cuando se activó con un tap (.abierto).
 */
 
-.interaccion:hover .pie-menu {
+.interaccion:hover .pie-menu,
+.interaccion.abierto .pie-menu {
 
     opacity: 1;
 
@@ -421,7 +424,8 @@ body {
 }
 
 
-.interaccion:hover .angulo {
+.interaccion:hover .angulo,
+.interaccion.abierto .angulo {
 
     opacity: 1;
 }
@@ -431,7 +435,8 @@ body {
    CENTRO
 ===================================================== */
 
-.interaccion:hover .centro {
+.interaccion:hover .centro,
+.interaccion.abierto .centro {
 
     opacity: 1;
 }
@@ -445,28 +450,28 @@ body {
 
     .interaccion {
 
-        width: 400px;
-        height: 400px;
+        width: 340px;
+        height: 340px;
     }
 
 
     .pie-menu {
 
-        width: 400px;
-        height: 400px;
+        width: 340px;
+        height: 340px;
     }
 
 
     .radial {
 
-        width: 220px;
-        height: 220px;
+        width: 190px;
+        height: 190px;
     }
 
 
     .opcion {
 
-        font-size: 14px;
+        font-size: 9.5px;
     }
 
 
@@ -480,7 +485,7 @@ body {
             )
 
             translateY(
-                -150px
+                -130px
             );
     }
 
@@ -495,8 +500,8 @@ body {
             )
 
             translate(
-                106px,
-                -106px
+                92px,
+                -92px
             );
     }
 
@@ -511,7 +516,7 @@ body {
             )
 
             translateX(
-                150px
+                148px
             );
     }
 
@@ -526,8 +531,8 @@ body {
             )
 
             translate(
-                106px,
-                106px
+                92px,
+                92px
             );
     }
 
@@ -542,7 +547,7 @@ body {
             )
 
             translateY(
-                150px
+                130px
             );
     }
 
@@ -557,8 +562,8 @@ body {
             )
 
             translate(
-                -106px,
-                106px
+                -92px,
+                92px
             );
     }
 
@@ -573,7 +578,7 @@ body {
             )
 
             translateX(
-                -150px
+                -148px
             );
     }
 
@@ -588,15 +593,180 @@ body {
             )
 
             translate(
-                -106px,
-                -106px
+                -92px,
+                -92px
             );
     }
 
 
     .nombre {
 
-        font-size: 17px;
+        font-size: 11px;
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE MUY ANGOSTO
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .interaccion {
+
+        width: 260px;
+        height: 260px;
+    }
+
+
+    .pie-menu {
+
+        width: 260px;
+        height: 260px;
+    }
+
+
+    .radial {
+
+        width: 145px;
+        height: 145px;
+    }
+
+
+    .opcion {
+
+        font-size: 8px;
+    }
+
+
+    .opcion[data-sector="0"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateY(
+                -100px
+            );
+    }
+
+
+    .opcion[data-sector="1"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                71px,
+                -71px
+            );
+    }
+
+
+    .opcion[data-sector="2"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateX(
+                114px
+            );
+    }
+
+
+    .opcion[data-sector="3"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                71px,
+                71px
+            );
+    }
+
+
+    .opcion[data-sector="4"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateY(
+                100px
+            );
+    }
+
+
+    .opcion[data-sector="5"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                -71px,
+                71px
+            );
+    }
+
+
+    .opcion[data-sector="6"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translateX(
+                -114px
+            );
+    }
+
+
+    .opcion[data-sector="7"] {
+
+        transform:
+
+            translate(
+                -50%,
+                -50%
+            )
+
+            translate(
+                -71px,
+                -71px
+            );
+    }
+
+
+    .nombre {
+
+        font-size: 9px;
     }
 
 }
@@ -820,6 +990,12 @@ const angulo =
     );
 
 
+const nombre =
+    document.querySelector(
+        ".nombre"
+    );
+
+
 /* =====================================================
    CONFIGURACIÓN
 ===================================================== */
@@ -831,6 +1007,77 @@ const sectores =
 const paso =
     360 /
     sectores;
+
+
+/* =====================================================
+   TOQUE / MÓVIL
+
+   En touch no existe un ":hover" real,
+   así que el menú se abre y cierra
+   con tap sobre el nombre.
+
+   El comportamiento de mouse/hover
+   en escritorio queda intacto.
+===================================================== */
+
+nombre.addEventListener(
+
+    "click",
+
+    function(event) {
+
+        event.stopPropagation();
+
+        interaccion.classList.toggle(
+            "abierto"
+        );
+
+    }
+
+);
+
+
+document.addEventListener(
+
+    "click",
+
+    function(event) {
+
+        if (
+            !interaccion.contains(
+                event.target
+            )
+        ) {
+
+            interaccion.classList.remove(
+                "abierto"
+            );
+        }
+
+    }
+
+);
+
+
+opciones.forEach(
+
+    opcion => {
+
+        opcion.addEventListener(
+
+            "click",
+
+            function(event) {
+
+                event.stopPropagation();
+
+            }
+
+        );
+
+    }
+
+);
 
 
 /* =====================================================
@@ -878,6 +1125,9 @@ document.addEventListener(
         if (
             !interaccion.matches(
                 ":hover"
+            ) &&
+            !interaccion.classList.contains(
+                "abierto"
             )
         ) {
 
